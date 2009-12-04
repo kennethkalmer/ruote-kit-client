@@ -14,7 +14,7 @@ begin
     gemspec.post_install_message = IO.read('PostInstall.txt')
     gemspec.extra_rdoc_files.include '*.txt'
 
-    gemspec.add_dependency 'rufus-jig', '>=0.1.0'
+    gemspec.add_dependency 'rufus-jig', '>=0.1.1'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_development_dependency 'cucumber'
   end
