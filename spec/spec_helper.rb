@@ -22,5 +22,9 @@ Spec::Runner.configure do |config|
 end
 
 def mock_request( agent, method, path, body, options, response )
-  agent.send(:jig).expects( method ).with( path, body, options ).returns( response )
+  if body
+    agent.send(:jig).expects( method ).with( path, body, options ).returns( response )
+  else
+    agent.send(:jig).expects( method ).with( path, options ).returns( response )
+  end
 end

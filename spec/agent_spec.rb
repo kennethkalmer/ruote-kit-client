@@ -48,5 +48,34 @@ describe RuoteKit::Client::Agent do
     end
   end
 
-  it "should be able to pull a list of processes"
+  describe "loading processes" do
+    it "should handle an empty list of processes" do
+      mock_request(
+        @agent,
+        :get,
+        '/processes',
+        nil,
+        { :accept => 'application/json' },
+        {"processes" => []}
+      )
+
+      @agent.processes.should be_empty
+    end
+
+    it "should return an array of processes" do
+      mock_request(
+        @agent,
+        :get,
+        '/processes',
+        nil,
+        { :accept => 'application/json' },
+        { "processes" => {"wfid"=>"20091204-bojupuraju", "definition_name"=>"test", "definition_revision"=>nil, "original_tree"=>["define", {"name"=>"test"}, [["sequence", {}, [["nada", {"activity"=>"REST :)"}, []]]]]], "current_tree"=>["define", {"name"=>"test"}, [["sequence", {}, [["participant", {"activity"=>"REST :)", "ref"=>"nada"}, []]]]]], "variables"=>{"test"=>["0", ["define", {"name"=>"test"}, [["sequence", {}, [["nada", {"activity"=>"REST :)"}, []]]]]]]}, "tags"=>{}, "launched_time"=>"2009-12-04 12:04:55 +0200", "root_expression"=>nil, "expressions"=>[{"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0"}, {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0"}, {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}], "errors"=>[], "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}, {"href"=>"/workitems/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}]}}
+      )
+
+      processes = @agent.processes
+      processes.should_not be_empty
+      processes.first.should be_a_kind_of( RuoteKit::Client::Process )
+      processes.first.agent.should_not be_nil
+    end
+  end
 end

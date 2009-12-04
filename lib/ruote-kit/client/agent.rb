@@ -25,6 +25,13 @@ module RuoteKit
         response['launched']
       end
 
+      # Return the list of processes
+      def processes
+        response = jig.get('/processes', :accept => 'application/json')
+
+        response['processes'].map { |p| Process.new(p) }.each { |p| p.agent = self }
+      end
+
       private
 
       def jig
