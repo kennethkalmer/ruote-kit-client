@@ -1,0 +1,70 @@
+= ruote-kit-client
+
+ruote-kit-client is a client library for interacting with 
+ruote-kit[http://github.com/kennethkalmer/ruote-kit], which in itself is a
+RESTful wrapper around the ruote[http://ruote.rubyforge.org] workflow engine.
+
+Built on top of rufus-jig[http://github.com/jmettraux/rufus-jig] this library
+utilizes net/http, em-http-request or patron for HTTP communications, and
+yajl-ruby, JSON or ActiveSupport for JSON parsing.
+
+== Getting started
+
+Make sure you have ruote-kit running somewhere from where this library can
+access it.
+
+  require 'ruote-kit/client'
+  
+  client = RuoteKit::Client.new = 'http://localhost:8080'
+
+Now you can interact with ruote-kit
+
+  # get a list of running processes
+  client.processes
+
+  # get a list of workitems
+  client.workitems
+
+  # filter workitems
+  client.workitems(:participant => 'jack')
+
+Plenty more is possible, please review the documentation for more information.
+
+== Installing
+
+Until a gem is released, feel free to clone the project from github and build
+the gem yourself:
+
+  $ git clone git://github.com/kennethkalmer/ruote-kit-client.git
+  $ gem build ruote-kit-client.gemspec
+
+== Feedback
+
+Join us on Freenode in the #ruote channel or on the ruote Google Group at
+http://groups.google.com/group/openwferu-users
+
+== License
+
+(The MIT License)
+
+Copyright (c) 2009 Kenneth Kalmer (Internet Exchange CC, Clear Planet Information Solutions Pty Ltd)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
