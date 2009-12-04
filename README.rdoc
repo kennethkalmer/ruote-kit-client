@@ -30,6 +30,15 @@ Now you can interact with ruote-kit
 
 Plenty more is possible, please review the documentation for more information.
 
+== Requirements
+
+ruote-kit-client requires only the rufus-jig gem, available from gemcutter.
+
+For best performance it is recommended you install Patron and require it
+before loading ruote-kit-client.
+
+For development you'll need rpsec and mocha installed.
+
 == Installing
 
 Until a gem is released, feel free to clone the project from github and build
