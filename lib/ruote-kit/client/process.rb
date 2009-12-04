@@ -2,8 +2,7 @@ module RuoteKit
   module Client
     class Process < ::Hash
 
-      # Last known agent used to populate this object
-      attr_accessor :agent
+      include EmbeddedAgent
 
       def initialize( constructor = {} )
         if constructor.is_a?( Hash )
@@ -22,12 +21,14 @@ module RuoteKit
         self['definition_revision']
       end
 
+      # Cancel the process
       def cancel!
-        @agent.cancel_process( wfid )
+        agent.cancel_process( wfid )
       end
 
+      # Kill the process
       def kill!
-        @agent.kill_process( wfid )
+        agent.kill_process( wfid )
       end
 
       def method_missing( method_name, *args )

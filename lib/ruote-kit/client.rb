@@ -14,5 +14,6 @@ module RuoteKit
     autoload :Agent, 'ruote-kit/client/agent'
     autoload :LaunchItem, 'ruote-kit/client/launch_item'
     autoload :Process, 'ruote-kit/client/process'
+    autoload :EmbeddedAgent, 'ruote-kit/client/embedded_agent'
   end
 end
