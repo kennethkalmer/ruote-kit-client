@@ -17,6 +17,7 @@ begin
     gemspec.add_dependency 'rufus-jig', '>=0.1.1'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_development_dependency 'cucumber'
+    gemspec.add_development_dependency 'mocha'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
