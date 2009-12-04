@@ -78,4 +78,32 @@ describe RuoteKit::Client::Agent do
       processes.first.agent.should_not be_nil
     end
   end
+
+  describe "managing processes" do
+    it "should be able to cancel processes" do
+      mock_request(
+        @agent,
+        :delete,
+        "/processes/foo",
+        nil,
+        { :accept => 'application/json' },
+        { "status" => "ok" }
+      )
+
+      @agent.cancel_process('foo')
+    end
+
+    it "should be able to kill processes" do
+      mock_request(
+        @agent,
+        :delete,
+        "/processes/foo?_kill=1",
+        nil,
+        { :accept => 'application/json' },
+        { "status" => "ok" }
+      )
+
+      @agent.kill_process('foo')
+    end
+  end
 end

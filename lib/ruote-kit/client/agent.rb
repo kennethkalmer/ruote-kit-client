@@ -32,6 +32,16 @@ module RuoteKit
         response['processes'].map { |p| Process.new(p) }.each { |p| p.agent = self }
       end
 
+      # Cancel a process
+      def cancel_process( wfid )
+        jig.delete( "/processes/#{wfid}", :accept => 'application/json' )
+      end
+
+      # Kill a process
+      def kill_process( wfid )
+        jig.delete( "/processes/#{wfid}?_kill=1", :accept => 'application/json' )
+      end
+
       private
 
       def jig

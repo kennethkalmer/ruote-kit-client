@@ -22,6 +22,14 @@ module RuoteKit
         self['definition_revision']
       end
 
+      def cancel!
+        @agent.cancel_process( wfid )
+      end
+
+      def kill!
+        @agent.kill_process( wfid )
+      end
+
       def method_missing( method_name, *args )
         if self.keys.include?( method_name.id2name )
           return self[ method_name.id2name ]

@@ -5,6 +5,9 @@ describe RuoteKit::Client::Process do
     @process = RuoteKit::Client::Process.new(
       {"wfid"=>"20091204-bojupuraju", "definition_name"=>"test", "definition_revision"=>nil, "original_tree"=>["define", {"name"=>"test"}, [["sequence", {}, [["nada", {"activity"=>"REST :)"}, []]]]]], "current_tree"=>["define", {"name"=>"test"}, [["sequence", {}, [["participant", {"activity"=>"REST :)", "ref"=>"nada"}, []]]]]], "variables"=>{"test"=>["0", ["define", {"name"=>"test"}, [["sequence", {}, [["nada", {"activity"=>"REST :)"}, []]]]]]]}, "tags"=>{}, "launched_time"=>"2009-12-04 12:04:55 +0200", "root_expression"=>nil, "expressions"=>[{"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0"}, {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0"}, {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}], "errors"=>[], "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}, {"href"=>"/workitems/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}]}
     )
+
+    @agent = RuoteKit::Client::Agent.new('http://localhost:8080/')
+    @process.agent = @agent
   end
 
   it "should have a wfid" do
@@ -21,4 +24,30 @@ describe RuoteKit::Client::Process do
 
   it "should have a list of expressions"
   it "should have a list of workitems"
+
+  it "can be cancelled" do
+    mock_request(
+      @agent,
+      :delete,
+      "/processes/#{@process.wfid}",
+      nil,
+      { :accept => 'application/json' },
+      { "status" => "ok" }
+    )
+
+    @process.cancel!
+  end
+
+  it "can be killed" do
+    mock_request(
+      @agent,
+      :delete,
+      "/processes/#{@process.wfid}?_kill=1",
+      nil,
+      { :accept => 'application/json' },
+      { "status" => "ok" }
+    )
+
+    @process.kill!
+  end
 end
