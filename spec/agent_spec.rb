@@ -106,4 +106,46 @@ describe RuoteKit::Client::Agent do
       @agent.kill_process('foo')
     end
   end
+
+  describe "loading workitems" do
+    it "should load all" do
+      mock_request(
+        @agent,
+        :get,
+        "/workitems",
+        nil,
+        { :accept => 'application/json' },
+        {"workitems"=>[{"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}]}
+      )
+
+      workitems = @agent.workitems
+      workitems.should_not be_empty
+      workitems.first.should be_a_kind_of( RuoteKit::Client::Workitem )
+      workitems.first.agent.should_not be_nil
+    end
+
+    it "should filter workitems by wfid"
+    it "should filter workitems by wfid/expid"
+
+    it "should filter workitems by participant" do
+      mock_request(
+        @agent,
+        :get,
+        "/workitems?participant=nada",
+        nil,
+        { :accept => 'application/json' },
+        {"workitems"=>[{"fei"=>{"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}]}
+      )
+
+      workitems = @agent.workitems(:participant => 'nada')
+      workitems.should_not be_empty
+      workitems.first.should be_a_kind_of( RuoteKit::Client::Workitem )
+      workitems.first.agent.should_not be_nil
+    end
+  end
+
+  describe "managing workitems" do
+    it "should update workitems"
+    it "should reply to workitems"
+  end
 end

@@ -15,5 +15,7 @@ module RuoteKit
     autoload :LaunchItem, 'ruote-kit/client/launch_item'
     autoload :Process, 'ruote-kit/client/process'
     autoload :EmbeddedAgent, 'ruote-kit/client/embedded_agent'
+    autoload :HashExtensions, 'ruote-kit/client/hash_extensions'
+    autoload :Workitem, 'ruote-kit/client/workitem'
   end
 end

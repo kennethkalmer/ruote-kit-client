@@ -42,6 +42,22 @@ module RuoteKit
         jig.delete( "/processes/#{wfid}?_kill=1", :accept => 'application/json' )
       end
 
+      def workitems( options = {} )
+        path = "/workitems"
+
+        query = []
+        if options[:participant]
+          parts = [ options[:participant] ].flatten
+          query << "participant=" + parts.join(',')
+        end
+
+        path << "?" + query.join('&') unless query.empty?
+
+        response = jig.get( path, :accept => 'application/json' )
+
+        response['workitems'].map { |w| Workitem.new(w) }.each { |w| w.agent = self }
+      end
+
       private
 
       def jig
