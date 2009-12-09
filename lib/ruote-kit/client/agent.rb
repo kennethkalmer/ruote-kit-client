@@ -13,7 +13,13 @@ module RuoteKit
 
       # Launch the process specified in the #RuoteKit::Client::LaunchItem.
       # Returns the +wfid+ of the newly launched process
-      def launch_process( launch_item )
+      def launch_process( launch_item_or_definition_or_uri, fields = {} )
+        launch_item = if launch_item_or_definition_or_uri.kind_of?(RuoteKit::Client::LaunchItem)
+          launch_item_or_definition_or_uri
+        else
+          LaunchItem.new(launch_item_or_definition_or_uri, fields)
+        end
+
         raise RuoteKit::Client::Exception, "Launch item not valid" unless launch_item.valid?
 
         response = jig.post(
