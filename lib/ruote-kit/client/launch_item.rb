@@ -14,9 +14,13 @@ module RuoteKit
       def initialize(definition_or_uri = nil, fields = {})
         case definition_or_uri
         when String
-          begin
-            @uri = URI.parse(definition_or_uri).to_s
-          rescue URI::InvalidURIError
+          if(definition_or_uri.match(/^https?:\/\//))
+            begin
+              @uri = URI.parse(definition_or_uri).to_s
+            rescue URI::InvalidURIError
+              @definition = definition_or_uri
+            end
+          else
             @definition = definition_or_uri
           end
         when URI
