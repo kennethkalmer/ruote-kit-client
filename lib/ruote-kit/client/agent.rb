@@ -12,7 +12,7 @@ module RuoteKit
       end
 
       # Launch the process specified in the #RuoteKit::Client::LaunchItem.
-      # Returns the +wfid+ of the newly launched process
+      # Returns a #RuoteKit::Client::Process instance of the newly launched process
       def launch_process( launch_item_or_definition_or_uri, fields = {} )
         launch_item = if launch_item_or_definition_or_uri.kind_of?(RuoteKit::Client::LaunchItem)
           launch_item_or_definition_or_uri
@@ -28,7 +28,9 @@ module RuoteKit
           :content_type => 'application/json', :accept => 'application/json'
         )
 
-        response['launched']
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['process'].nil?
+
+        Process.new(response['process'])
       end
 
       # Return the list of processes
