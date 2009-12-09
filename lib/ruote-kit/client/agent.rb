@@ -30,7 +30,9 @@ module RuoteKit
 
         raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['process'].nil?
 
-        Process.new(response['process'])
+        p = Process.new(response['process'])
+        p.agent = self
+        p
       end
 
       # Return the list of processes
@@ -75,7 +77,9 @@ module RuoteKit
 
         raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['process'].nil?
 
-        Process.new(response['process'])
+        p = Process.new(response['process'])
+        p.agent = self
+        p
       end
 
       def find_workitem(wfid, expid)
@@ -83,7 +87,9 @@ module RuoteKit
 
         raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['workitem'].nil?
 
-        Workitem.new(response['workitem'])
+        w = Workitem.new(response['workitem'])
+        w.agent = self
+        w
       end
 
       private
