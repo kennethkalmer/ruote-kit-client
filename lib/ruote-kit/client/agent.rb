@@ -72,6 +72,14 @@ module RuoteKit
         Process.new(response['process'])
       end
 
+      def find_workitem(wfid, expid)
+        response = jig.get("/workitems/#{wfid}/#{expid}", :accept => 'application/json')
+
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['workitem'].nil?
+
+        Workitem.new(response['workitem'])
+      end
+
       private
 
       def jig
