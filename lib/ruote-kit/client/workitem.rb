@@ -16,6 +16,10 @@ module RuoteKit
       def proceed
         agent.proceed_workitem(self)
       end
+
+      def expression
+        agent.find_expression(fei['wfid'], fei['expid'])
+      end
     end
   end
 end

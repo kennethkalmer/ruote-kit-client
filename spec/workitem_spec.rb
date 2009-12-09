@@ -24,7 +24,10 @@ describe RuoteKit::Client::Workitem do
     process.agent.should_not be_nil
     process.wfid.should == @workitem['fei']['wfid']
   end
-  it "should have an expression"
+  it "should have an expression" do
+    @agent.expects( :find_expression ).with( "20091204-bojupuraju", "0_0_0" )
+    @workitem.expression
+  end
   it "can be updated" do
     @agent.expects( :update_workitem ).with( @workitem ).returns( true )
     @workitem.save
