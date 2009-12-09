@@ -328,4 +328,39 @@ describe RuoteKit::Client::Agent do
       expression.agent.should_not be_nil
     end
   end
+
+  describe "manage expressions" do
+    it "can cancel expressions" do
+      mock_request(
+        @agent,
+        :delete,
+        "/expressions/20091209-zujasuju/0_0_0",
+        nil,
+        { :accept => 'application/json', :params => {} },
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/expressions/20091209-zujasuju/0_0_0", "rel"=>"self"}], "status"=>"ok"}
+      )
+
+      lambda {
+        expression = RuoteKit::Client::Expression.new({"class"=>"Ruote::Exp::ParticipantExpression", "variables"=>nil, "participant_name"=>"nada", "original_tree"=>["participant", {"activity"=>"REST :)", "ref"=>"nada"}, []], "on_timeout"=>nil, "modified_time"=>"Wed Dec 09 16:24:15 +0100 2009", "updated_tree"=>nil, "timeout_job_id"=>nil, "has_error"=>false, "on_cancel"=>nil, "created_time"=>"Wed Dec 09 16:24:15 +0100 2009", "applied_workitem"=>{"participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "fei"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0_0"}}, "parent_id"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0"}, "links"=>[{"href"=>"/processes/20091209-zujasuju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091209-zujasuju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}, {"href"=>"/expressions/20091209-zujasuju/0_0", "rel"=>"parent"}], "tagname"=>nil, "children"=>[], "timeout_at"=>nil, "state"=>nil, "on_error"=>nil, "fei"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0_0"}})
+        response = @agent.cancel_expression(expression)
+        response.should be_true
+      }.should_not raise_error
+    end
+    it "can kill expressions" do
+      mock_request(
+        @agent,
+        :delete,
+        "/expressions/20091209-zujasuju/0_0_0",
+        nil,
+        { :accept => 'application/json', :params => {'_kill' => '1'} },
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/expressions/20091209-zujasuju/0_0_0", "rel"=>"self"}], "status"=>"ok"}
+      )
+
+      lambda {
+        expression = RuoteKit::Client::Expression.new({"class"=>"Ruote::Exp::ParticipantExpression", "variables"=>nil, "participant_name"=>"nada", "original_tree"=>["participant", {"activity"=>"REST :)", "ref"=>"nada"}, []], "on_timeout"=>nil, "modified_time"=>"Wed Dec 09 16:24:15 +0100 2009", "updated_tree"=>nil, "timeout_job_id"=>nil, "has_error"=>false, "on_cancel"=>nil, "created_time"=>"Wed Dec 09 16:24:15 +0100 2009", "applied_workitem"=>{"participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "fei"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0_0"}}, "parent_id"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0"}, "links"=>[{"href"=>"/processes/20091209-zujasuju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091209-zujasuju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}, {"href"=>"/expressions/20091209-zujasuju/0_0", "rel"=>"parent"}], "tagname"=>nil, "children"=>[], "timeout_at"=>nil, "state"=>nil, "on_error"=>nil, "fei"=>{"class"=>"Ruote::FlowExpressionId", "wfid"=>"20091209-zujasuju", "engine_id"=>"engine", "expid"=>"0_0_0"}})
+        response = @agent.kill_expression(expression)
+        response.should be_true
+      }.should_not raise_error
+    end
+  end
 end

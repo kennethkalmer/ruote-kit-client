@@ -134,6 +134,14 @@ module RuoteKit
         e
       end
 
+      def cancel_expression(expression)
+        delete_expression(expression.wfid, expression.expid)
+      end
+
+      def kill_expression(expression)
+        delete_expression(expression.wfid, expression.expid, '_kill' => '1')
+      end
+
       private
 
       def jig
@@ -142,12 +150,20 @@ module RuoteKit
 
       def put_workitem(wfid, expid, data)
         response = jig.put("/workitems/#{wfid}/#{expid}", data, :accept => 'application/json', :content_type => 'application/json')
-        puts response.inspect
         if(response and response['workitem'] and response['workitem']['fields'] == data['fields'])
           true
         else
           # some error occured. for now, raise an exception
           raise RuoteKit::Client::Exception, 'Error while updating workitem at ruote-kit'
+        end
+      end
+
+      def delete_expression(wfid, expid, params = {})
+        response = jig.delete("/expressions/#{wfid}/#{expid}", :accept => 'application/json', :params => params)
+        if(response and response['status'] and response['status'] == 'ok')
+          true
+        else
+          raise RuoteKit::Client::Exception, 'Error while deleting expression at ruote-kit'
         end
       end
     end
