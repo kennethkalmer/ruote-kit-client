@@ -22,7 +22,10 @@ describe RuoteKit::Client::Process do
     @process.revision.should be_nil
   end
 
-  it "should have a list of expressions"
+  it "should have a list of expressions" do
+    @agent.expects( :expressions ).with( @process )
+    @process.expressions
+  end
   it "should have a list of workitems" do
     mock_request(
       @agent,

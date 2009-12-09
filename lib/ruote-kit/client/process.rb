@@ -27,6 +27,9 @@ module RuoteKit
         agent.workitems({:process => self}.merge(options))
       end
 
+      def expressions
+        agent.expressions( self )
+      end
     end
   end
 end
