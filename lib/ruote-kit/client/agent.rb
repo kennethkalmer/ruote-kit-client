@@ -116,6 +116,24 @@ module RuoteKit
         end
       end
 
+      def expressions(process)
+        response = jig.get("/expressions/#{process.wfid}", :accept => 'application/json')
+
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['expressions'].nil?
+
+        response['expressions'].map { |e| Expression.new(e) }.each { |e| e.agent = self }
+      end
+
+      def find_expression(wfid, expid)
+        response = jig.get("/expressions/#{wfid}/#{expid}", :accept => 'application/json')
+
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['expression'].nil?
+
+        e = Expression.new(response['expression'])
+        e.agent = self
+        e
+      end
+
       private
 
       def jig
