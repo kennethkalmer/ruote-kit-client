@@ -37,4 +37,33 @@ describe RuoteKit::Client::LaunchItem do
 
     JSON.parse( @li.to_json ).should == { "fields" => {}, "definition" => "foo" }
   end
+
+  it "should be instanciated by passing an URI" do
+    uri = URI.parse('http://localhost:8080/some/fine/test')
+    li = RuoteKit::Client::LaunchItem.new(uri)
+    li.should be_a_kind_of(RuoteKit::Client::LaunchItem)
+    li.uri.should == 'http://localhost:8080/some/fine/test'
+    li.should be_valid
+  end
+
+  it "should be instanciated by passing a definition uri as string" do
+    uri = 'http://localhost:8080/some/fine/test'
+    li = RuoteKit::Client::LaunchItem.new(uri)
+    li.should be_a_kind_of(RuoteKit::Client::LaunchItem)
+    li.uri.should == 'http://localhost:8080/some/fine/test'
+    li.should be_valid
+  end
+
+  it "should treat other strings passed to the initialize method as first argument as definitions" do
+    li = RuoteKit::Client::LaunchItem.new('foo')
+    li.should be_a_kind_of(RuoteKit::Client::LaunchItem)
+    li.definition.should == 'foo'
+    li.should be_valid
+  end
+
+  it "should set the fields according to the given fields as second argument of the initialize method" do
+    li = RuoteKit::Client::LaunchItem.new('foo', {'moo' => 'mah', 'boo' => 'baa'})
+    li.should be_a_kind_of(RuoteKit::Client::LaunchItem)
+    li.fields.should == {'moo' => 'mah', 'boo' => 'baa'}
+  end
 end
