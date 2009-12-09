@@ -23,7 +23,21 @@ describe RuoteKit::Client::Process do
   end
 
   it "should have a list of expressions"
-  it "should have a list of workitems"
+  it "should have a list of workitems" do
+    mock_request(
+      @agent,
+      :get,
+      "/workitems/20091204-bojupuraju",
+      nil,
+      { :accept => 'application/json', :params => {} },
+      {"workitems"=>[{"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}]}
+    )
+
+    workitems = @process.workitems
+    workitems.should_not be_empty
+    workitems.first.should be_a_kind_of( RuoteKit::Client::Workitem )
+    workitems.first.agent.should_not be_nil
+  end
 
   it "can be cancelled" do
     mock_request(
