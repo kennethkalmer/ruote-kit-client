@@ -254,7 +254,45 @@ describe RuoteKit::Client::Agent do
   end
 
   describe "managing workitems" do
-    it "should update workitems"
-    it "should reply to workitems"
+    it "should update workitems" do
+      workitem = RuoteKit::Client::Workitem.new({"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]})
+
+      mock_request(
+        @agent,
+        :put,
+        "/workitems/20091204-bojupuraju/0_0_0",
+        {'fields' => {'moo' => 'mah', 'boo' => 'bah'}.merge(workitem['fields'])},
+        { :accept => 'application/json', :content_type => 'application/json' },
+        {"workitem"=>{"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}, 'moo' => 'mah', 'boo' => 'bah'}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}}
+      )
+
+      workitem['fields']['moo'] = 'mah'
+      workitem['fields']['boo'] = 'bah'
+
+      lambda {
+        response = @agent.update_workitem!(workitem)
+        response.should be_true
+      }.should_not raise_error
+    end
+    it "should reply to workitems" do
+      workitem = RuoteKit::Client::Workitem.new({"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]})
+
+      mock_request(
+        @agent,
+        :put,
+        "/workitems/20091204-bojupuraju/0_0_0",
+        {'fields' => {'moo' => 'mah', 'boo' => 'bah'}.merge(workitem['fields']), '_proceed' => '1'},
+        { :accept => 'application/json', :content_type => 'application/json' },
+        {"workitem"=>{"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}, 'moo' => 'mah', 'boo' => 'bah'}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}}
+      )
+
+      workitem['fields']['moo'] = 'mah'
+      workitem['fields']['boo'] = 'bah'
+
+      lambda {
+        response = @agent.proceed_workitem!(workitem)
+        response.should be_true
+      }.should_not raise_error
+    end
   end
 end

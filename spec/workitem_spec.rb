@@ -25,6 +25,12 @@ describe RuoteKit::Client::Workitem do
     process.wfid.should == @workitem['fei']['wfid']
   end
   it "should have an expression"
-  it "can be updated"
-  it "can be proceeded"
+  it "can be updated" do
+    @agent.expects( :update_workitem ).with( @workitem ).returns( true )
+    @workitem.save
+  end
+  it "can be proceeded" do
+    @agent.expects( :proceed_workitem ).with( @workitem ).returns( true )
+    @workitem.proceed
+  end
 end

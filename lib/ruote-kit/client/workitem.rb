@@ -8,6 +8,14 @@ module RuoteKit
       def process
         agent.find_process(fei['wfid'])
       end
+
+      def save
+        agent.update_workitem(self)
+      end
+
+      def proceed
+        agent.proceed_workitem(self)
+      end
     end
   end
 end

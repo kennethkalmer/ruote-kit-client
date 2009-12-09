@@ -92,10 +92,45 @@ module RuoteKit
         w
       end
 
+      def update_workitem!(workitem)
+        put_workitem(workitem['fei']['wfid'], workitem['fei']['expid'], 'fields' => workitem['fields'])
+      end
+
+      def update_workitem(workitem)
+        begin
+          update_workitem!(workitem)
+        rescue
+          false
+        end
+      end
+
+      def proceed_workitem!(workitem)
+        put_workitem(workitem['fei']['wfid'], workitem['fei']['expid'], 'fields' => workitem['fields'], '_proceed' => '1')
+      end
+
+      def proceed_workitem(workitem)
+        begin
+          proceed_workitem!(workitem)
+        rescue
+          false
+        end
+      end
+
       private
 
       def jig
         @jig ||= Rufus::Jig::Http.new( @url.host, @url.port )
+      end
+
+      def put_workitem(wfid, expid, data)
+        response = jig.put("/workitems/#{wfid}/#{expid}", data, :accept => 'application/json', :content_type => 'application/json')
+        puts response.inspect
+        if(response and response['workitem'] and response['workitem']['fields'] == data['fields'])
+          true
+        else
+          # some error occured. for now, raise an exception
+          raise RuoteKit::Client::Exception, 'Error while updating workitem at ruote-kit'
+        end
       end
     end
   end
