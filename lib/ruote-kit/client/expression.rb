@@ -15,6 +15,14 @@ module RuoteKit
       def workitem
         agent.find_workitem( self.wfid, self.expid )
       end
+
+      def cancel!
+        agent.cancel_expression( self )
+      end
+
+      def kill!
+        agent.kill_expression( self )
+      end
     end
   end
 end

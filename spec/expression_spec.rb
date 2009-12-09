@@ -18,6 +18,12 @@ describe RuoteKit::Client::Expression do
     @agent.expects( :find_workitem ).with( "20091209-zujasuju", "0_0_0" )
     @expression.workitem
   end
-  it "can be cancelled"
-  it "can be killed"
+  it "can be cancelled" do
+    @agent.expects( :cancel_expression ).with( @expression )
+    @expression.cancel!
+  end
+  it "can be killed" do
+    @agent.expects( :kill_expression ).with( @expression )
+    @expression.kill!
+  end
 end
