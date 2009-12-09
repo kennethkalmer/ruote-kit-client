@@ -11,6 +11,10 @@ module RuoteKit
       def expid
         self['fei']['expid']
       end
+
+      def workitem
+        agent.find_workitem( self.wfid, self.expid )
+      end
     end
   end
 end
