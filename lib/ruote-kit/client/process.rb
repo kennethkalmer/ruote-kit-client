@@ -23,6 +23,10 @@ module RuoteKit
         agent.kill_process( wfid )
       end
 
+      def workitems(options = {})
+        agent.workitems({:process => self}.merge(options))
+      end
+
     end
   end
 end
