@@ -53,15 +53,13 @@ module RuoteKit
       def workitems( options = {} )
         path = "/workitems"
 
-        query = []
+        params = {}
         if options[:participant]
           parts = [ options[:participant] ].flatten
-          query << "participant=" + parts.join(',')
+          params['participant'] = parts.join(',')
         end
 
-        path << "?" + query.join('&') unless query.empty?
-
-        response = jig.get( path, :accept => 'application/json' )
+        response = jig.get( path, :accept => 'application/json', :params => params )
 
         response['workitems'].map { |w| Workitem.new(w) }.each { |w| w.agent = self }
       end
