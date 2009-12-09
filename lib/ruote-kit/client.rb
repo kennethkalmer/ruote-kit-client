@@ -17,5 +17,6 @@ module RuoteKit
     autoload :EmbeddedAgent, 'ruote-kit/client/embedded_agent'
     autoload :HashExtensions, 'ruote-kit/client/hash_extensions'
     autoload :Workitem, 'ruote-kit/client/workitem'
+    autoload :Expression, 'ruote-kit/client/expression'
   end
 end
