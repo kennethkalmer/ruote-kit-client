@@ -64,6 +64,14 @@ module RuoteKit
         response['workitems'].map { |w| Workitem.new(w) }.each { |w| w.agent = self }
       end
 
+      def find_process(wfid)
+        response = jig.get("/processes/#{wfid}", :accept => 'application/json')
+
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['process'].nil?
+
+        Process.new(response['process'])
+      end
+
       private
 
       def jig
