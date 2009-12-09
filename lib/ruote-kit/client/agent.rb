@@ -52,6 +52,12 @@ module RuoteKit
 
       def workitems( options = {} )
         path = "/workitems"
+        
+        if(options[:process])
+          path << "/#{options[:process].wfid}"
+        elsif(options[:wfid])
+          path << "/#{options[:wfid]}"
+        end
 
         params = {}
         if options[:participant]
