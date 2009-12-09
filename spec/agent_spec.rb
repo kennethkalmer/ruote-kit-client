@@ -27,14 +27,14 @@ describe RuoteKit::Client::Agent do
         '/processes',
         li.to_json,
         { :content_type => 'application/json', :accept => 'application/json' },
-        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "launched"=>"20091204-bomabohire"}
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "process"=>{"definition_revision"=>"0.1","root_expression"=>nil,"wfid"=>"20091209-suhegashi","definition_name"=>"Test"} }
       )
 
       lambda {
 
-        wfid = @agent.launch_process( li )
-        wfid.should_not be_nil
-        wfid.should match(/^[0-9a-z\-]+$/)
+        process = @agent.launch_process( li )
+        process.should_not be_nil
+        process.should be_a_kind_of( RuoteKit::Client::Process )
 
       }.should_not raise_error
     end
@@ -114,7 +114,7 @@ describe RuoteKit::Client::Agent do
         :get,
         "/workitems",
         nil,
-        { :accept => 'application/json' },
+        { :accept => 'application/json', :params => {} },
         {"workitems"=>[{"fei"=> {"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}]}
       )
 
@@ -131,9 +131,9 @@ describe RuoteKit::Client::Agent do
       mock_request(
         @agent,
         :get,
-        "/workitems?participant=nada",
+        "/workitems",
         nil,
-        { :accept => 'application/json' },
+        { :accept => 'application/json', :params => {'participant' => 'nada'} },
         {"workitems"=>[{"fei"=>{"class"=>"Ruote::FlowExpressionId", "engine_id"=>"engine", "wfid"=>"20091204-bojupuraju", "expid"=>"0_0_0"}, "participant_name"=>"nada", "fields"=>{"params"=>{"activity"=>"REST :)", "ref"=>"nada"}}, "links"=>[{"href"=>"/processes/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#process"}, {"href"=>"/expressions/20091204-bojupuraju", "rel"=>"http://ruote.rubyforge.org/rels.html#expressions"}]}]}
       )
 
