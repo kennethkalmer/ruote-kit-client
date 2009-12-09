@@ -12,4 +12,6 @@ describe RuoteKit::Client::Expression do
     @expression.expid.should == "0_0_0"
   end
   it "should have a workitem"
+  it "can be cancelled"
+  it "can be killed"
 end
