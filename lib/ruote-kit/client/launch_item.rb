@@ -21,8 +21,6 @@ module RuoteKit
           end
         when URI
           @uri = definition_or_uri.to_s
-        else
-          raise RuoteKit::Client::Exception, "first argument has to be String or URI"
         end
         self.fields = fields
       end
