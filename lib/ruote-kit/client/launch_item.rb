@@ -11,12 +11,24 @@ module RuoteKit
       # Hash of fields (default: empty hash)
       attr_reader :fields
 
-      def initialize
-        @fields = {}
+      def initialize(definition_or_uri = nil, fields = {})
+        case definition_or_uri
+        when String
+          begin
+            @uri = URI.parse(definition_or_uri).to_s
+          rescue URI::InvalidURIError
+            @definition = definition_or_uri
+          end
+        when URI
+          @uri = definition_or_uri.to_s
+        else
+          raise RuoteKit::Client::Exception, "first argument has to be String or URI"
+        end
+        self.fields = fields
       end
 
       def fields=( fields )
-        raise ArgumentError, "fields must be a Hash" unless fields.is_a_kind_of?( Hash )
+        raise ArgumentError, "fields must be a Hash" unless fields.kind_of?( Hash )
 
         @fields = fields
       end
