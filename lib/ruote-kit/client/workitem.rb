@@ -4,6 +4,10 @@ module RuoteKit
 
       include EmbeddedAgent
       include HashExtensions
+
+      def process
+        agent.find_process(fei['wfid'])
+      end
     end
   end
 end
