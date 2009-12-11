@@ -28,11 +28,9 @@ module RuoteKit
           :content_type => 'application/json', :accept => 'application/json'
         )
 
-        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['process'].nil?
+        raise RuoteKit::Client::Exception, "Invalid response from ruote-kit" if response.nil? or response['launched'].nil?
 
-        p = Process.new(response['process'])
-        p.agent = self
-        p
+        find_process(response['launched'])
       end
 
       # Return the list of processes

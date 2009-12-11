@@ -27,6 +27,14 @@ describe RuoteKit::Client::Agent do
         '/processes',
         li.to_json,
         { :content_type => 'application/json', :accept => 'application/json' },
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "launched" => "20091209-suhegashi" }
+      )
+      mock_request(
+        @agent,
+        :get,
+        '/processes/20091209-suhegashi',
+        nil,
+        { :accept => 'application/json' },
         {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "process"=>{"definition_revision"=>"0.1","root_expression"=>nil,"wfid"=>"20091209-suhegashi","definition_name"=>"Test"} }
       )
 
@@ -54,11 +62,18 @@ describe RuoteKit::Client::Agent do
         '/processes',
         li.to_json,
         { :content_type => 'application/json', :accept => 'application/json' },
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "launched" => "20091209-suhegashi" }
+      )
+      mock_request(
+        @agent,
+        :get,
+        '/processes/20091209-suhegashi',
+        nil,
+        { :accept => 'application/json' },
         {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "process"=>{"definition_revision"=>"0.1","root_expression"=>nil,"wfid"=>"20091209-suhegashi","definition_name"=>"Test"} }
       )
 
       lambda {
-        
 
         process = @agent.launch_process( li.definition )
         process.should_not be_nil
@@ -77,6 +92,14 @@ describe RuoteKit::Client::Agent do
         '/processes',
         li.to_json,
         { :content_type => 'application/json', :accept => 'application/json' },
+        {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "launched" => "20091209-suhegashi" }
+      )
+      mock_request(
+        @agent,
+        :get,
+        '/processes/20091209-suhegashi',
+        nil,
+        { :accept => 'application/json' },
         {"links"=>[{"href"=>"/", "rel"=>"http://ruote.rubyforge.org/rels.html#root"}, {"href"=>"/processes", "rel"=>"http://ruote.rubyforge.org/rels.html#processes"}, {"href"=>"/workitems", "rel"=>"http://ruote.rubyforge.org/rels.html#workitems"}, {"href"=>"/history", "rel"=>"http://ruote.rubyforge.org/rels.html#history"}, {"href"=>"/processes", "rel"=>"self"}], "process"=>{"definition_revision"=>"0.1","root_expression"=>nil,"wfid"=>"20091209-suhegashi","definition_name"=>"Test"} }
       )
 
